@@ -1,0 +1,23 @@
+{
+  "test": "11 uid 33 символа",
+  "request": {
+    "uid": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "operationUid": "operation-1",
+    "systemName": "ERP",
+    "systemTime": "2026-10-27T08:40:00.000Z",
+    "source": "lab2",
+    "communicationId": 10,
+    "templateId": 1,
+    "productCode": 2,
+    "smsCode": 1234
+  },
+  "httpStatus": 400,
+  "response": {
+    "uid": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "operationUid": "operation-1",
+    "systemTime": "2026-10-27T09:38:58.052773Z",
+    "code": "failed",
+    "errorCode": "ValidationException",
+    "errorMessage": "Ошибка валидации: uid не длиннее 32 символов"
+  }
+}

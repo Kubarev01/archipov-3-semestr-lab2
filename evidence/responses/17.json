@@ -1,0 +1,22 @@
+{
+  "test": "17 systemTime отсутствует",
+  "request": {
+    "uid": "1",
+    "operationUid": "operation-1",
+    "systemName": "ERP",
+    "source": "lab2",
+    "communicationId": 10,
+    "templateId": 1,
+    "productCode": 2,
+    "smsCode": 1234
+  },
+  "httpStatus": 400,
+  "response": {
+    "uid": "1",
+    "operationUid": "operation-1",
+    "systemTime": "2026-10-27T09:38:58.063148Z",
+    "code": "failed",
+    "errorCode": "ValidationException",
+    "errorMessage": "Ошибка валидации: systemTime обязателен"
+  }
+}

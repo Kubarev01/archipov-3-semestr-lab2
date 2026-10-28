@@ -1,0 +1,13 @@
+{
+  "test": "30 Синтаксически неверный JSON",
+  "request": "{\"uid\":",
+  "httpStatus": 400,
+  "response": {
+    "uid": "",
+    "operationUid": "",
+    "systemTime": "2026-10-27T09:38:58.093102Z",
+    "code": "failed",
+    "errorCode": "ValidationException",
+    "errorMessage": "Ошибка валидации: некорректное тело JSON"
+  }
+}

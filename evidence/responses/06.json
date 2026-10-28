@@ -1,0 +1,23 @@
+{
+  "test": "06 Необязательные числовые поля равны нулю",
+  "request": {
+    "uid": "1",
+    "operationUid": "operation-1",
+    "systemName": "ERP",
+    "systemTime": "2026-10-27T08:40:00.000Z",
+    "source": "lab2",
+    "communicationId": 10,
+    "templateId": 0,
+    "productCode": 0,
+    "smsCode": 0
+  },
+  "httpStatus": 200,
+  "response": {
+    "uid": "1",
+    "operationUid": "operation-1",
+    "systemTime": "2026-10-27T09:38:58.040417Z",
+    "code": "success",
+    "errorCode": "",
+    "errorMessage": ""
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "test": "02 Только обязательные поля",
+  "request": {
+    "uid": "1",
+    "operationUid": "operation-1",
+    "systemTime": "2026-10-27T08:40:00.000Z",
+    "communicationId": 10
+  },
+  "httpStatus": 200,
+  "response": {
+    "uid": "1",
+    "operationUid": "operation-1",
+    "systemTime": "2026-10-27T09:38:58.026909Z",
+    "code": "success",
+    "errorCode": "",
+    "errorMessage": ""
+  }
+}

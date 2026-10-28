@@ -1,0 +1,1326 @@
+{
+  "info": {
+    "name": "ЛР 2 — REST сервис и валидация",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "ЛР 2",
+      "item": [
+        {
+          "name": "01 Успешные запросы",
+          "item": [
+            {
+              "name": "01 Полный корректный запрос",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"operation-1\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"2026-10-27T08:40:00.000Z\",\n  \"source\": \"lab2\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": "http://localhost:8082/feedback"
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                      "const result = pm.response.json();",
+                      "pm.test(\"Response schema\", () => pm.expect(result).to.have.all.keys(\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"));",
+                      "pm.test(\"code\", () => pm.expect(result.code).to.equal(\"success\"));",
+                      "pm.test(\"errorCode\", () => pm.expect(result.errorCode).to.equal(\"\"));",
+                      "pm.test(\"systemTime ISO\", () => pm.expect(Number.isNaN(Date.parse(result.systemTime))).to.equal(false));",
+                      "pm.test(\"Empty error message\", () => pm.expect(result.errorMessage).to.equal(\"\"));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "02 Только обязательные поля",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"operation-1\",\n  \"systemTime\": \"2026-10-27T08:40:00.000Z\",\n  \"communicationId\": 10\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": "http://localhost:8082/feedback"
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                      "const result = pm.response.json();",
+                      "pm.test(\"Response schema\", () => pm.expect(result).to.have.all.keys(\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"));",
+                      "pm.test(\"code\", () => pm.expect(result.code).to.equal(\"success\"));",
+                      "pm.test(\"errorCode\", () => pm.expect(result.errorCode).to.equal(\"\"));",
+                      "pm.test(\"systemTime ISO\", () => pm.expect(Number.isNaN(Date.parse(result.systemTime))).to.equal(false));",
+                      "pm.test(\"Empty error message\", () => pm.expect(result.errorMessage).to.equal(\"\"));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "03 uid и operationUid по 32 символа",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"uid\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n  \"operationUid\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"2026-10-27T08:40:00.000Z\",\n  \"source\": \"lab2\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": "http://localhost:8082/feedback"
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                      "const result = pm.response.json();",
+                      "pm.test(\"Response schema\", () => pm.expect(result).to.have.all.keys(\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"));",
+                      "pm.test(\"code\", () => pm.expect(result.code).to.equal(\"success\"));",
+                      "pm.test(\"errorCode\", () => pm.expect(result.errorCode).to.equal(\"\"));",
+                      "pm.test(\"systemTime ISO\", () => pm.expect(Number.isNaN(Date.parse(result.systemTime))).to.equal(false));",
+                      "pm.test(\"Empty error message\", () => pm.expect(result.errorMessage).to.equal(\"\"));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "04 communicationId минимум 1",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"operation-1\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"2026-10-27T08:40:00.000Z\",\n  \"source\": \"lab2\",\n  \"communicationId\": 1,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": "http://localhost:8082/feedback"
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                      "const result = pm.response.json();",
+                      "pm.test(\"Response schema\", () => pm.expect(result).to.have.all.keys(\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"));",
+                      "pm.test(\"code\", () => pm.expect(result.code).to.equal(\"success\"));",
+                      "pm.test(\"errorCode\", () => pm.expect(result.errorCode).to.equal(\"\"));",
+                      "pm.test(\"systemTime ISO\", () => pm.expect(Number.isNaN(Date.parse(result.systemTime))).to.equal(false));",
+                      "pm.test(\"Empty error message\", () => pm.expect(result.errorMessage).to.equal(\"\"));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "05 communicationId максимум 100000",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"operation-1\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"2026-10-27T08:40:00.000Z\",\n  \"source\": \"lab2\",\n  \"communicationId\": 100000,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": "http://localhost:8082/feedback"
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                      "const result = pm.response.json();",
+                      "pm.test(\"Response schema\", () => pm.expect(result).to.have.all.keys(\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"));",
+                      "pm.test(\"code\", () => pm.expect(result.code).to.equal(\"success\"));",
+                      "pm.test(\"errorCode\", () => pm.expect(result.errorCode).to.equal(\"\"));",
+                      "pm.test(\"systemTime ISO\", () => pm.expect(Number.isNaN(Date.parse(result.systemTime))).to.equal(false));",
+                      "pm.test(\"Empty error message\", () => pm.expect(result.errorMessage).to.equal(\"\"));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "06 Необязательные числовые поля равны нулю",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"operation-1\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"2026-10-27T08:40:00.000Z\",\n  \"source\": \"lab2\",\n  \"communicationId\": 10,\n  \"templateId\": 0,\n  \"productCode\": 0,\n  \"smsCode\": 0\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": "http://localhost:8082/feedback"
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                      "const result = pm.response.json();",
+                      "pm.test(\"Response schema\", () => pm.expect(result).to.have.all.keys(\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"));",
+                      "pm.test(\"code\", () => pm.expect(result.code).to.equal(\"success\"));",
+                      "pm.test(\"errorCode\", () => pm.expect(result.errorCode).to.equal(\"\"));",
+                      "pm.test(\"systemTime ISO\", () => pm.expect(Number.isNaN(Date.parse(result.systemTime))).to.equal(false));",
+                      "pm.test(\"Empty error message\", () => pm.expect(result.errorMessage).to.equal(\"\"));"
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "02 Отдельные ошибки валидации",
+          "item": [
+            {
+              "name": "07 uid отсутствует",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"operationUid\": \"operation-1\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"2026-10-27T08:40:00.000Z\",\n  \"source\": \"lab2\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": "http://localhost:8082/feedback"
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));",
+                      "const result = pm.response.json();",
+                      "pm.test(\"Response schema\", () => pm.expect(result).to.have.all.keys(\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"));",
+                      "pm.test(\"code\", () => pm.expect(result.code).to.equal(\"failed\"));",
+                      "pm.test(\"errorCode\", () => pm.expect(result.errorCode).to.equal(\"ValidationException\"));",
+                      "pm.test(\"systemTime ISO\", () => pm.expect(Number.isNaN(Date.parse(result.systemTime))).to.equal(false));",
+                      "pm.test(\"errorMessage contains uid\", () => pm.expect(result.errorMessage).to.include(\"uid\"));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "08 uid null",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"uid\": null,\n  \"operationUid\": \"operation-1\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"2026-10-27T08:40:00.000Z\",\n  \"source\": \"lab2\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": "http://localhost:8082/feedback"
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));",
+                      "const result = pm.response.json();",
+                      "pm.test(\"Response schema\", () => pm.expect(result).to.have.all.keys(\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"));",
+                      "pm.test(\"code\", () => pm.expect(result.code).to.equal(\"failed\"));",
+                      "pm.test(\"errorCode\", () => pm.expect(result.errorCode).to.equal(\"ValidationException\"));",
+                      "pm.test(\"systemTime ISO\", () => pm.expect(Number.isNaN(Date.parse(result.systemTime))).to.equal(false));",
+                      "pm.test(\"errorMessage contains uid\", () => pm.expect(result.errorMessage).to.include(\"uid\"));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "09 uid пустой",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"uid\": \"\",\n  \"operationUid\": \"operation-1\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"2026-10-27T08:40:00.000Z\",\n  \"source\": \"lab2\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": "http://localhost:8082/feedback"
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));",
+                      "const result = pm.response.json();",
+                      "pm.test(\"Response schema\", () => pm.expect(result).to.have.all.keys(\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"));",
+                      "pm.test(\"code\", () => pm.expect(result.code).to.equal(\"failed\"));",
+                      "pm.test(\"errorCode\", () => pm.expect(result.errorCode).to.equal(\"ValidationException\"));",
+                      "pm.test(\"systemTime ISO\", () => pm.expect(Number.isNaN(Date.parse(result.systemTime))).to.equal(false));",
+                      "pm.test(\"errorMessage contains uid\", () => pm.expect(result.errorMessage).to.include(\"uid\"));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "10 uid пробелы",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"uid\": \"   \",\n  \"operationUid\": \"operation-1\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"2026-10-27T08:40:00.000Z\",\n  \"source\": \"lab2\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": "http://localhost:8082/feedback"
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));",
+                      "const result = pm.response.json();",
+                      "pm.test(\"Response schema\", () => pm.expect(result).to.have.all.keys(\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"));",
+                      "pm.test(\"code\", () => pm.expect(result.code).to.equal(\"failed\"));",
+                      "pm.test(\"errorCode\", () => pm.expect(result.errorCode).to.equal(\"ValidationException\"));",
+                      "pm.test(\"systemTime ISO\", () => pm.expect(Number.isNaN(Date.parse(result.systemTime))).to.equal(false));",
+                      "pm.test(\"errorMessage contains uid\", () => pm.expect(result.errorMessage).to.include(\"uid\"));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "11 uid 33 символа",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"uid\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n  \"operationUid\": \"operation-1\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"2026-10-27T08:40:00.000Z\",\n  \"source\": \"lab2\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": "http://localhost:8082/feedback"
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));",
+                      "const result = pm.response.json();",
+                      "pm.test(\"Response schema\", () => pm.expect(result).to.have.all.keys(\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"));",
+                      "pm.test(\"code\", () => pm.expect(result.code).to.equal(\"failed\"));",
+                      "pm.test(\"errorCode\", () => pm.expect(result.errorCode).to.equal(\"ValidationException\"));",
+                      "pm.test(\"systemTime ISO\", () => pm.expect(Number.isNaN(Date.parse(result.systemTime))).to.equal(false));",
+                      "pm.test(\"errorMessage contains uid\", () => pm.expect(result.errorMessage).to.include(\"uid\"));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "12 operationUid отсутствует",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"uid\": \"1\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"2026-10-27T08:40:00.000Z\",\n  \"source\": \"lab2\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": "http://localhost:8082/feedback"
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));",
+                      "const result = pm.response.json();",
+                      "pm.test(\"Response schema\", () => pm.expect(result).to.have.all.keys(\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"));",
+                      "pm.test(\"code\", () => pm.expect(result.code).to.equal(\"failed\"));",
+                      "pm.test(\"errorCode\", () => pm.expect(result.errorCode).to.equal(\"ValidationException\"));",
+                      "pm.test(\"systemTime ISO\", () => pm.expect(Number.isNaN(Date.parse(result.systemTime))).to.equal(false));",
+                      "pm.test(\"errorMessage contains operationUid\", () => pm.expect(result.errorMessage).to.include(\"operationUid\"));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "13 operationUid null",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"uid\": \"1\",\n  \"operationUid\": null,\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"2026-10-27T08:40:00.000Z\",\n  \"source\": \"lab2\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": "http://localhost:8082/feedback"
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));",
+                      "const result = pm.response.json();",
+                      "pm.test(\"Response schema\", () => pm.expect(result).to.have.all.keys(\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"));",
+                      "pm.test(\"code\", () => pm.expect(result.code).to.equal(\"failed\"));",
+                      "pm.test(\"errorCode\", () => pm.expect(result.errorCode).to.equal(\"ValidationException\"));",
+                      "pm.test(\"systemTime ISO\", () => pm.expect(Number.isNaN(Date.parse(result.systemTime))).to.equal(false));",
+                      "pm.test(\"errorMessage contains operationUid\", () => pm.expect(result.errorMessage).to.include(\"operationUid\"));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "14 operationUid пустой",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"2026-10-27T08:40:00.000Z\",\n  \"source\": \"lab2\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": "http://localhost:8082/feedback"
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));",
+                      "const result = pm.response.json();",
+                      "pm.test(\"Response schema\", () => pm.expect(result).to.have.all.keys(\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"));",
+                      "pm.test(\"code\", () => pm.expect(result.code).to.equal(\"failed\"));",
+                      "pm.test(\"errorCode\", () => pm.expect(result.errorCode).to.equal(\"ValidationException\"));",
+                      "pm.test(\"systemTime ISO\", () => pm.expect(Number.isNaN(Date.parse(result.systemTime))).to.equal(false));",
+                      "pm.test(\"errorMessage contains operationUid\", () => pm.expect(result.errorMessage).to.include(\"operationUid\"));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "15 operationUid пробелы",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"   \",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"2026-10-27T08:40:00.000Z\",\n  \"source\": \"lab2\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": "http://localhost:8082/feedback"
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));",
+                      "const result = pm.response.json();",
+                      "pm.test(\"Response schema\", () => pm.expect(result).to.have.all.keys(\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"));",
+                      "pm.test(\"code\", () => pm.expect(result.code).to.equal(\"failed\"));",
+                      "pm.test(\"errorCode\", () => pm.expect(result.errorCode).to.equal(\"ValidationException\"));",
+                      "pm.test(\"systemTime ISO\", () => pm.expect(Number.isNaN(Date.parse(result.systemTime))).to.equal(false));",
+                      "pm.test(\"errorMessage contains operationUid\", () => pm.expect(result.errorMessage).to.include(\"operationUid\"));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "16 operationUid 33 символа",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"2026-10-27T08:40:00.000Z\",\n  \"source\": \"lab2\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": "http://localhost:8082/feedback"
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));",
+                      "const result = pm.response.json();",
+                      "pm.test(\"Response schema\", () => pm.expect(result).to.have.all.keys(\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"));",
+                      "pm.test(\"code\", () => pm.expect(result.code).to.equal(\"failed\"));",
+                      "pm.test(\"errorCode\", () => pm.expect(result.errorCode).to.equal(\"ValidationException\"));",
+                      "pm.test(\"systemTime ISO\", () => pm.expect(Number.isNaN(Date.parse(result.systemTime))).to.equal(false));",
+                      "pm.test(\"errorMessage contains operationUid\", () => pm.expect(result.errorMessage).to.include(\"operationUid\"));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "17 systemTime отсутствует",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"operation-1\",\n  \"systemName\": \"ERP\",\n  \"source\": \"lab2\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": "http://localhost:8082/feedback"
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));",
+                      "const result = pm.response.json();",
+                      "pm.test(\"Response schema\", () => pm.expect(result).to.have.all.keys(\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"));",
+                      "pm.test(\"code\", () => pm.expect(result.code).to.equal(\"failed\"));",
+                      "pm.test(\"errorCode\", () => pm.expect(result.errorCode).to.equal(\"ValidationException\"));",
+                      "pm.test(\"systemTime ISO\", () => pm.expect(Number.isNaN(Date.parse(result.systemTime))).to.equal(false));",
+                      "pm.test(\"errorMessage contains systemTime\", () => pm.expect(result.errorMessage).to.include(\"systemTime\"));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "18 systemTime null",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"operation-1\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": null,\n  \"source\": \"lab2\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": "http://localhost:8082/feedback"
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));",
+                      "const result = pm.response.json();",
+                      "pm.test(\"Response schema\", () => pm.expect(result).to.have.all.keys(\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"));",
+                      "pm.test(\"code\", () => pm.expect(result.code).to.equal(\"failed\"));",
+                      "pm.test(\"errorCode\", () => pm.expect(result.errorCode).to.equal(\"ValidationException\"));",
+                      "pm.test(\"systemTime ISO\", () => pm.expect(Number.isNaN(Date.parse(result.systemTime))).to.equal(false));",
+                      "pm.test(\"errorMessage contains systemTime\", () => pm.expect(result.errorMessage).to.include(\"systemTime\"));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "19 systemTime пустой",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"operation-1\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"\",\n  \"source\": \"lab2\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": "http://localhost:8082/feedback"
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));",
+                      "const result = pm.response.json();",
+                      "pm.test(\"Response schema\", () => pm.expect(result).to.have.all.keys(\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"));",
+                      "pm.test(\"code\", () => pm.expect(result.code).to.equal(\"failed\"));",
+                      "pm.test(\"errorCode\", () => pm.expect(result.errorCode).to.equal(\"ValidationException\"));",
+                      "pm.test(\"systemTime ISO\", () => pm.expect(Number.isNaN(Date.parse(result.systemTime))).to.equal(false));",
+                      "pm.test(\"errorMessage contains systemTime\", () => pm.expect(result.errorMessage).to.include(\"systemTime\"));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "20 systemTime пробелы",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"operation-1\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"   \",\n  \"source\": \"lab2\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": "http://localhost:8082/feedback"
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));",
+                      "const result = pm.response.json();",
+                      "pm.test(\"Response schema\", () => pm.expect(result).to.have.all.keys(\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"));",
+                      "pm.test(\"code\", () => pm.expect(result.code).to.equal(\"failed\"));",
+                      "pm.test(\"errorCode\", () => pm.expect(result.errorCode).to.equal(\"ValidationException\"));",
+                      "pm.test(\"systemTime ISO\", () => pm.expect(Number.isNaN(Date.parse(result.systemTime))).to.equal(false));",
+                      "pm.test(\"errorMessage contains systemTime\", () => pm.expect(result.errorMessage).to.include(\"systemTime\"));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "21 communicationId отсутствует",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"operation-1\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"2026-10-27T08:40:00.000Z\",\n  \"source\": \"lab2\",\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": "http://localhost:8082/feedback"
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));",
+                      "const result = pm.response.json();",
+                      "pm.test(\"Response schema\", () => pm.expect(result).to.have.all.keys(\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"));",
+                      "pm.test(\"code\", () => pm.expect(result.code).to.equal(\"failed\"));",
+                      "pm.test(\"errorCode\", () => pm.expect(result.errorCode).to.equal(\"ValidationException\"));",
+                      "pm.test(\"systemTime ISO\", () => pm.expect(Number.isNaN(Date.parse(result.systemTime))).to.equal(false));",
+                      "pm.test(\"errorMessage contains communicationId\", () => pm.expect(result.errorMessage).to.include(\"communicationId\"));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "22 communicationId null",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"operation-1\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"2026-10-27T08:40:00.000Z\",\n  \"source\": \"lab2\",\n  \"communicationId\": null,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": "http://localhost:8082/feedback"
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));",
+                      "const result = pm.response.json();",
+                      "pm.test(\"Response schema\", () => pm.expect(result).to.have.all.keys(\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"));",
+                      "pm.test(\"code\", () => pm.expect(result.code).to.equal(\"failed\"));",
+                      "pm.test(\"errorCode\", () => pm.expect(result.errorCode).to.equal(\"ValidationException\"));",
+                      "pm.test(\"systemTime ISO\", () => pm.expect(Number.isNaN(Date.parse(result.systemTime))).to.equal(false));",
+                      "pm.test(\"errorMessage contains communicationId\", () => pm.expect(result.errorMessage).to.include(\"communicationId\"));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "23 communicationId равен 0",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"operation-1\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"2026-10-27T08:40:00.000Z\",\n  \"source\": \"lab2\",\n  \"communicationId\": 0,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": "http://localhost:8082/feedback"
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));",
+                      "const result = pm.response.json();",
+                      "pm.test(\"Response schema\", () => pm.expect(result).to.have.all.keys(\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"));",
+                      "pm.test(\"code\", () => pm.expect(result.code).to.equal(\"failed\"));",
+                      "pm.test(\"errorCode\", () => pm.expect(result.errorCode).to.equal(\"ValidationException\"));",
+                      "pm.test(\"systemTime ISO\", () => pm.expect(Number.isNaN(Date.parse(result.systemTime))).to.equal(false));",
+                      "pm.test(\"errorMessage contains communicationId\", () => pm.expect(result.errorMessage).to.include(\"communicationId\"));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "24 communicationId равен минус 1",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"operation-1\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"2026-10-27T08:40:00.000Z\",\n  \"source\": \"lab2\",\n  \"communicationId\": -1,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": "http://localhost:8082/feedback"
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));",
+                      "const result = pm.response.json();",
+                      "pm.test(\"Response schema\", () => pm.expect(result).to.have.all.keys(\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"));",
+                      "pm.test(\"code\", () => pm.expect(result.code).to.equal(\"failed\"));",
+                      "pm.test(\"errorCode\", () => pm.expect(result.errorCode).to.equal(\"ValidationException\"));",
+                      "pm.test(\"systemTime ISO\", () => pm.expect(Number.isNaN(Date.parse(result.systemTime))).to.equal(false));",
+                      "pm.test(\"errorMessage contains communicationId\", () => pm.expect(result.errorMessage).to.include(\"communicationId\"));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "25 communicationId равен 100001",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"operation-1\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"2026-10-27T08:40:00.000Z\",\n  \"source\": \"lab2\",\n  \"communicationId\": 100001,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": "http://localhost:8082/feedback"
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));",
+                      "const result = pm.response.json();",
+                      "pm.test(\"Response schema\", () => pm.expect(result).to.have.all.keys(\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"));",
+                      "pm.test(\"code\", () => pm.expect(result.code).to.equal(\"failed\"));",
+                      "pm.test(\"errorCode\", () => pm.expect(result.errorCode).to.equal(\"ValidationException\"));",
+                      "pm.test(\"systemTime ISO\", () => pm.expect(Number.isNaN(Date.parse(result.systemTime))).to.equal(false));",
+                      "pm.test(\"errorMessage contains communicationId\", () => pm.expect(result.errorMessage).to.include(\"communicationId\"));"
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "03 Ошибки одновременно",
+          "item": [
+            {
+              "name": "26 Все обязательные поля отсутствуют",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": "http://localhost:8082/feedback"
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));",
+                      "const result = pm.response.json();",
+                      "pm.test(\"Response schema\", () => pm.expect(result).to.have.all.keys(\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"));",
+                      "pm.test(\"code\", () => pm.expect(result.code).to.equal(\"failed\"));",
+                      "pm.test(\"errorCode\", () => pm.expect(result.errorCode).to.equal(\"ValidationException\"));",
+                      "pm.test(\"systemTime ISO\", () => pm.expect(Number.isNaN(Date.parse(result.systemTime))).to.equal(false));",
+                      "pm.test(\"errorMessage contains uid\", () => pm.expect(result.errorMessage).to.include(\"uid\"));",
+                      "pm.test(\"errorMessage contains operationUid\", () => pm.expect(result.errorMessage).to.include(\"operationUid\"));",
+                      "pm.test(\"errorMessage contains systemTime\", () => pm.expect(result.errorMessage).to.include(\"systemTime\"));",
+                      "pm.test(\"errorMessage contains communicationId\", () => pm.expect(result.errorMessage).to.include(\"communicationId\"));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "27 Все поля нарушают ограничения",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"uid\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n  \"operationUid\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"\",\n  \"source\": \"lab2\",\n  \"communicationId\": 100001,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": "http://localhost:8082/feedback"
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));",
+                      "const result = pm.response.json();",
+                      "pm.test(\"Response schema\", () => pm.expect(result).to.have.all.keys(\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"));",
+                      "pm.test(\"code\", () => pm.expect(result.code).to.equal(\"failed\"));",
+                      "pm.test(\"errorCode\", () => pm.expect(result.errorCode).to.equal(\"ValidationException\"));",
+                      "pm.test(\"systemTime ISO\", () => pm.expect(Number.isNaN(Date.parse(result.systemTime))).to.equal(false));",
+                      "pm.test(\"errorMessage contains uid\", () => pm.expect(result.errorMessage).to.include(\"uid\"));",
+                      "pm.test(\"errorMessage contains operationUid\", () => pm.expect(result.errorMessage).to.include(\"operationUid\"));",
+                      "pm.test(\"errorMessage contains systemTime\", () => pm.expect(result.errorMessage).to.include(\"systemTime\"));",
+                      "pm.test(\"errorMessage contains communicationId\", () => pm.expect(result.errorMessage).to.include(\"communicationId\"));"
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "04 Исключения и JSON",
+          "item": [
+            {
+              "name": "28 uid равен 123",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"uid\": \"123\",\n  \"operationUid\": \"operation-1\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"2026-10-27T08:40:00.000Z\",\n  \"source\": \"lab2\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": "http://localhost:8082/feedback"
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));",
+                      "const result = pm.response.json();",
+                      "pm.test(\"Response schema\", () => pm.expect(result).to.have.all.keys(\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"));",
+                      "pm.test(\"code\", () => pm.expect(result.code).to.equal(\"failed\"));",
+                      "pm.test(\"errorCode\", () => pm.expect(result.errorCode).to.equal(\"UnsupportedCodeException\"));",
+                      "pm.test(\"systemTime ISO\", () => pm.expect(Number.isNaN(Date.parse(result.systemTime))).to.equal(false));",
+                      "pm.test(\"errorMessage contains Не поддерживаемая ошибка\", () => pm.expect(result.errorMessage).to.include(\"Не поддерживаемая ошибка\"));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "29 Валидация имеет приоритет перед uid 123",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"uid\": \"123\",\n  \"operationUid\": \"operation-1\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"2026-10-27T08:40:00.000Z\",\n  \"source\": \"lab2\",\n  \"communicationId\": 0,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": "http://localhost:8082/feedback"
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));",
+                      "const result = pm.response.json();",
+                      "pm.test(\"Response schema\", () => pm.expect(result).to.have.all.keys(\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"));",
+                      "pm.test(\"code\", () => pm.expect(result.code).to.equal(\"failed\"));",
+                      "pm.test(\"errorCode\", () => pm.expect(result.errorCode).to.equal(\"ValidationException\"));",
+                      "pm.test(\"systemTime ISO\", () => pm.expect(Number.isNaN(Date.parse(result.systemTime))).to.equal(false));",
+                      "pm.test(\"errorMessage contains communicationId\", () => pm.expect(result.errorMessage).to.include(\"communicationId\"));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "30 Синтаксически неверный JSON",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"uid\":",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": "http://localhost:8082/feedback"
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));",
+                      "const result = pm.response.json();",
+                      "pm.test(\"Response schema\", () => pm.expect(result).to.have.all.keys(\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"));",
+                      "pm.test(\"code\", () => pm.expect(result.code).to.equal(\"failed\"));",
+                      "pm.test(\"errorCode\", () => pm.expect(result.errorCode).to.equal(\"ValidationException\"));",
+                      "pm.test(\"systemTime ISO\", () => pm.expect(Number.isNaN(Date.parse(result.systemTime))).to.equal(false));",
+                      "pm.test(\"errorMessage contains некорректное тело JSON\", () => pm.expect(result.errorMessage).to.include(\"некорректное тело JSON\"));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "31 Пустое тело",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": "http://localhost:8082/feedback"
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));",
+                      "const result = pm.response.json();",
+                      "pm.test(\"Response schema\", () => pm.expect(result).to.have.all.keys(\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"));",
+                      "pm.test(\"code\", () => pm.expect(result.code).to.equal(\"failed\"));",
+                      "pm.test(\"errorCode\", () => pm.expect(result.errorCode).to.equal(\"ValidationException\"));",
+                      "pm.test(\"systemTime ISO\", () => pm.expect(Number.isNaN(Date.parse(result.systemTime))).to.equal(false));",
+                      "pm.test(\"errorMessage contains некорректное тело JSON\", () => pm.expect(result.errorMessage).to.include(\"некорректное тело JSON\"));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "32 communicationId не является числом",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"operation-1\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"2026-10-27T08:40:00.000Z\",\n  \"source\": \"lab2\",\n  \"communicationId\": \"abc\",\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": "http://localhost:8082/feedback"
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));",
+                      "const result = pm.response.json();",
+                      "pm.test(\"Response schema\", () => pm.expect(result).to.have.all.keys(\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"));",
+                      "pm.test(\"code\", () => pm.expect(result.code).to.equal(\"failed\"));",
+                      "pm.test(\"errorCode\", () => pm.expect(result.errorCode).to.equal(\"ValidationException\"));",
+                      "pm.test(\"systemTime ISO\", () => pm.expect(Number.isNaN(Date.parse(result.systemTime))).to.equal(false));",
+                      "pm.test(\"errorMessage contains некорректное тело JSON\", () => pm.expect(result.errorMessage).to.include(\"некорректное тело JSON\"));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "33 communicationId дробный",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"operation-1\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"2026-10-27T08:40:00.000Z\",\n  \"source\": \"lab2\",\n  \"communicationId\": 1.5,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": "http://localhost:8082/feedback"
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));",
+                      "const result = pm.response.json();",
+                      "pm.test(\"Response schema\", () => pm.expect(result).to.have.all.keys(\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"));",
+                      "pm.test(\"code\", () => pm.expect(result.code).to.equal(\"failed\"));",
+                      "pm.test(\"errorCode\", () => pm.expect(result.errorCode).to.equal(\"ValidationException\"));",
+                      "pm.test(\"systemTime ISO\", () => pm.expect(Number.isNaN(Date.parse(result.systemTime))).to.equal(false));",
+                      "pm.test(\"errorMessage contains некорректное тело JSON\", () => pm.expect(result.errorMessage).to.include(\"некорректное тело JSON\"));"
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "test": "05 communicationId максимум 100000",
+  "request": {
+    "uid": "1",
+    "operationUid": "operation-1",
+    "systemName": "ERP",
+    "systemTime": "2026-10-27T08:40:00.000Z",
+    "source": "lab2",
+    "communicationId": 100000,
+    "templateId": 1,
+    "productCode": 2,
+    "smsCode": 1234
+  },
+  "httpStatus": 200,
+  "response": {
+    "uid": "1",
+    "operationUid": "operation-1",
+    "systemTime": "2026-10-27T09:38:58.036511Z",
+    "code": "success",
+    "errorCode": "",
+    "errorMessage": ""
+  }
+}

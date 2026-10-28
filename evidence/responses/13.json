@@ -1,0 +1,23 @@
+{
+  "test": "13 operationUid null",
+  "request": {
+    "uid": "1",
+    "operationUid": null,
+    "systemName": "ERP",
+    "systemTime": "2026-10-27T08:40:00.000Z",
+    "source": "lab2",
+    "communicationId": 10,
+    "templateId": 1,
+    "productCode": 2,
+    "smsCode": 1234
+  },
+  "httpStatus": 400,
+  "response": {
+    "uid": "1",
+    "operationUid": "",
+    "systemTime": "2026-10-27T09:38:58.056962Z",
+    "code": "failed",
+    "errorCode": "ValidationException",
+    "errorMessage": "Ошибка валидации: operationUid обязателен"
+  }
+}

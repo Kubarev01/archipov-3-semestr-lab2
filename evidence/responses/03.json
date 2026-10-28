@@ -1,0 +1,23 @@
+{
+  "test": "03 uid и operationUid по 32 символа",
+  "request": {
+    "uid": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "operationUid": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "systemName": "ERP",
+    "systemTime": "2026-10-27T08:40:00.000Z",
+    "source": "lab2",
+    "communicationId": 10,
+    "templateId": 1,
+    "productCode": 2,
+    "smsCode": 1234
+  },
+  "httpStatus": 200,
+  "response": {
+    "uid": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "operationUid": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "systemTime": "2026-10-27T09:38:58.028983Z",
+    "code": "success",
+    "errorCode": "",
+    "errorMessage": ""
+  }
+}

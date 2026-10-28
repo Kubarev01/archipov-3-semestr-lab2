@@ -1,0 +1,617 @@
+[
+  {
+    "name": "01 Полный корректный запрос",
+    "body": {
+      "uid": "1",
+      "operationUid": "operation-1",
+      "systemName": "ERP",
+      "systemTime": "2026-10-27T08:40:00.000Z",
+      "source": "lab2",
+      "communicationId": 10,
+      "templateId": 1,
+      "productCode": 2,
+      "smsCode": 1234
+    },
+    "status": 200,
+    "error": "",
+    "contains": [],
+    "group": "01 Успешные запросы"
+  },
+  {
+    "name": "02 Только обязательные поля",
+    "body": {
+      "uid": "1",
+      "operationUid": "operation-1",
+      "systemTime": "2026-10-27T08:40:00.000Z",
+      "communicationId": 10
+    },
+    "status": 200,
+    "error": "",
+    "contains": [],
+    "group": "01 Успешные запросы"
+  },
+  {
+    "name": "03 uid и operationUid по 32 символа",
+    "body": {
+      "uid": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "operationUid": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "systemName": "ERP",
+      "systemTime": "2026-10-27T08:40:00.000Z",
+      "source": "lab2",
+      "communicationId": 10,
+      "templateId": 1,
+      "productCode": 2,
+      "smsCode": 1234
+    },
+    "status": 200,
+    "error": "",
+    "contains": [],
+    "group": "01 Успешные запросы"
+  },
+  {
+    "name": "04 communicationId минимум 1",
+    "body": {
+      "uid": "1",
+      "operationUid": "operation-1",
+      "systemName": "ERP",
+      "systemTime": "2026-10-27T08:40:00.000Z",
+      "source": "lab2",
+      "communicationId": 1,
+      "templateId": 1,
+      "productCode": 2,
+      "smsCode": 1234
+    },
+    "status": 200,
+    "error": "",
+    "contains": [],
+    "group": "01 Успешные запросы"
+  },
+  {
+    "name": "05 communicationId максимум 100000",
+    "body": {
+      "uid": "1",
+      "operationUid": "operation-1",
+      "systemName": "ERP",
+      "systemTime": "2026-10-27T08:40:00.000Z",
+      "source": "lab2",
+      "communicationId": 100000,
+      "templateId": 1,
+      "productCode": 2,
+      "smsCode": 1234
+    },
+    "status": 200,
+    "error": "",
+    "contains": [],
+    "group": "01 Успешные запросы"
+  },
+  {
+    "name": "06 Необязательные числовые поля равны нулю",
+    "body": {
+      "uid": "1",
+      "operationUid": "operation-1",
+      "systemName": "ERP",
+      "systemTime": "2026-10-27T08:40:00.000Z",
+      "source": "lab2",
+      "communicationId": 10,
+      "templateId": 0,
+      "productCode": 0,
+      "smsCode": 0
+    },
+    "status": 200,
+    "error": "",
+    "contains": [],
+    "group": "01 Успешные запросы"
+  },
+  {
+    "name": "07 uid отсутствует",
+    "body": {
+      "operationUid": "operation-1",
+      "systemName": "ERP",
+      "systemTime": "2026-10-27T08:40:00.000Z",
+      "source": "lab2",
+      "communicationId": 10,
+      "templateId": 1,
+      "productCode": 2,
+      "smsCode": 1234
+    },
+    "status": 400,
+    "error": "ValidationException",
+    "contains": [
+      "uid"
+    ],
+    "group": "02 Отдельные ошибки валидации"
+  },
+  {
+    "name": "08 uid null",
+    "body": {
+      "uid": null,
+      "operationUid": "operation-1",
+      "systemName": "ERP",
+      "systemTime": "2026-10-27T08:40:00.000Z",
+      "source": "lab2",
+      "communicationId": 10,
+      "templateId": 1,
+      "productCode": 2,
+      "smsCode": 1234
+    },
+    "status": 400,
+    "error": "ValidationException",
+    "contains": [
+      "uid"
+    ],
+    "group": "02 Отдельные ошибки валидации"
+  },
+  {
+    "name": "09 uid пустой",
+    "body": {
+      "uid": "",
+      "operationUid": "operation-1",
+      "systemName": "ERP",
+      "systemTime": "2026-10-27T08:40:00.000Z",
+      "source": "lab2",
+      "communicationId": 10,
+      "templateId": 1,
+      "productCode": 2,
+      "smsCode": 1234
+    },
+    "status": 400,
+    "error": "ValidationException",
+    "contains": [
+      "uid"
+    ],
+    "group": "02 Отдельные ошибки валидации"
+  },
+  {
+    "name": "10 uid пробелы",
+    "body": {
+      "uid": "   ",
+      "operationUid": "operation-1",
+      "systemName": "ERP",
+      "systemTime": "2026-10-27T08:40:00.000Z",
+      "source": "lab2",
+      "communicationId": 10,
+      "templateId": 1,
+      "productCode": 2,
+      "smsCode": 1234
+    },
+    "status": 400,
+    "error": "ValidationException",
+    "contains": [
+      "uid"
+    ],
+    "group": "02 Отдельные ошибки валидации"
+  },
+  {
+    "name": "11 uid 33 символа",
+    "body": {
+      "uid": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "operationUid": "operation-1",
+      "systemName": "ERP",
+      "systemTime": "2026-10-27T08:40:00.000Z",
+      "source": "lab2",
+      "communicationId": 10,
+      "templateId": 1,
+      "productCode": 2,
+      "smsCode": 1234
+    },
+    "status": 400,
+    "error": "ValidationException",
+    "contains": [
+      "uid"
+    ],
+    "group": "02 Отдельные ошибки валидации"
+  },
+  {
+    "name": "12 operationUid отсутствует",
+    "body": {
+      "uid": "1",
+      "systemName": "ERP",
+      "systemTime": "2026-10-27T08:40:00.000Z",
+      "source": "lab2",
+      "communicationId": 10,
+      "templateId": 1,
+      "productCode": 2,
+      "smsCode": 1234
+    },
+    "status": 400,
+    "error": "ValidationException",
+    "contains": [
+      "operationUid"
+    ],
+    "group": "02 Отдельные ошибки валидации"
+  },
+  {
+    "name": "13 operationUid null",
+    "body": {
+      "uid": "1",
+      "operationUid": null,
+      "systemName": "ERP",
+      "systemTime": "2026-10-27T08:40:00.000Z",
+      "source": "lab2",
+      "communicationId": 10,
+      "templateId": 1,
+      "productCode": 2,
+      "smsCode": 1234
+    },
+    "status": 400,
+    "error": "ValidationException",
+    "contains": [
+      "operationUid"
+    ],
+    "group": "02 Отдельные ошибки валидации"
+  },
+  {
+    "name": "14 operationUid пустой",
+    "body": {
+      "uid": "1",
+      "operationUid": "",
+      "systemName": "ERP",
+      "systemTime": "2026-10-27T08:40:00.000Z",
+      "source": "lab2",
+      "communicationId": 10,
+      "templateId": 1,
+      "productCode": 2,
+      "smsCode": 1234
+    },
+    "status": 400,
+    "error": "ValidationException",
+    "contains": [
+      "operationUid"
+    ],
+    "group": "02 Отдельные ошибки валидации"
+  },
+  {
+    "name": "15 operationUid пробелы",
+    "body": {
+      "uid": "1",
+      "operationUid": "   ",
+      "systemName": "ERP",
+      "systemTime": "2026-10-27T08:40:00.000Z",
+      "source": "lab2",
+      "communicationId": 10,
+      "templateId": 1,
+      "productCode": 2,
+      "smsCode": 1234
+    },
+    "status": 400,
+    "error": "ValidationException",
+    "contains": [
+      "operationUid"
+    ],
+    "group": "02 Отдельные ошибки валидации"
+  },
+  {
+    "name": "16 operationUid 33 символа",
+    "body": {
+      "uid": "1",
+      "operationUid": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "systemName": "ERP",
+      "systemTime": "2026-10-27T08:40:00.000Z",
+      "source": "lab2",
+      "communicationId": 10,
+      "templateId": 1,
+      "productCode": 2,
+      "smsCode": 1234
+    },
+    "status": 400,
+    "error": "ValidationException",
+    "contains": [
+      "operationUid"
+    ],
+    "group": "02 Отдельные ошибки валидации"
+  },
+  {
+    "name": "17 systemTime отсутствует",
+    "body": {
+      "uid": "1",
+      "operationUid": "operation-1",
+      "systemName": "ERP",
+      "source": "lab2",
+      "communicationId": 10,
+      "templateId": 1,
+      "productCode": 2,
+      "smsCode": 1234
+    },
+    "status": 400,
+    "error": "ValidationException",
+    "contains": [
+      "systemTime"
+    ],
+    "group": "02 Отдельные ошибки валидации"
+  },
+  {
+    "name": "18 systemTime null",
+    "body": {
+      "uid": "1",
+      "operationUid": "operation-1",
+      "systemName": "ERP",
+      "systemTime": null,
+      "source": "lab2",
+      "communicationId": 10,
+      "templateId": 1,
+      "productCode": 2,
+      "smsCode": 1234
+    },
+    "status": 400,
+    "error": "ValidationException",
+    "contains": [
+      "systemTime"
+    ],
+    "group": "02 Отдельные ошибки валидации"
+  },
+  {
+    "name": "19 systemTime пустой",
+    "body": {
+      "uid": "1",
+      "operationUid": "operation-1",
+      "systemName": "ERP",
+      "systemTime": "",
+      "source": "lab2",
+      "communicationId": 10,
+      "templateId": 1,
+      "productCode": 2,
+      "smsCode": 1234
+    },
+    "status": 400,
+    "error": "ValidationException",
+    "contains": [
+      "systemTime"
+    ],
+    "group": "02 Отдельные ошибки валидации"
+  },
+  {
+    "name": "20 systemTime пробелы",
+    "body": {
+      "uid": "1",
+      "operationUid": "operation-1",
+      "systemName": "ERP",
+      "systemTime": "   ",
+      "source": "lab2",
+      "communicationId": 10,
+      "templateId": 1,
+      "productCode": 2,
+      "smsCode": 1234
+    },
+    "status": 400,
+    "error": "ValidationException",
+    "contains": [
+      "systemTime"
+    ],
+    "group": "02 Отдельные ошибки валидации"
+  },
+  {
+    "name": "21 communicationId отсутствует",
+    "body": {
+      "uid": "1",
+      "operationUid": "operation-1",
+      "systemName": "ERP",
+      "systemTime": "2026-10-27T08:40:00.000Z",
+      "source": "lab2",
+      "templateId": 1,
+      "productCode": 2,
+      "smsCode": 1234
+    },
+    "status": 400,
+    "error": "ValidationException",
+    "contains": [
+      "communicationId"
+    ],
+    "group": "02 Отдельные ошибки валидации"
+  },
+  {
+    "name": "22 communicationId null",
+    "body": {
+      "uid": "1",
+      "operationUid": "operation-1",
+      "systemName": "ERP",
+      "systemTime": "2026-10-27T08:40:00.000Z",
+      "source": "lab2",
+      "communicationId": null,
+      "templateId": 1,
+      "productCode": 2,
+      "smsCode": 1234
+    },
+    "status": 400,
+    "error": "ValidationException",
+    "contains": [
+      "communicationId"
+    ],
+    "group": "02 Отдельные ошибки валидации"
+  },
+  {
+    "name": "23 communicationId равен 0",
+    "body": {
+      "uid": "1",
+      "operationUid": "operation-1",
+      "systemName": "ERP",
+      "systemTime": "2026-10-27T08:40:00.000Z",
+      "source": "lab2",
+      "communicationId": 0,
+      "templateId": 1,
+      "productCode": 2,
+      "smsCode": 1234
+    },
+    "status": 400,
+    "error": "ValidationException",
+    "contains": [
+      "communicationId"
+    ],
+    "group": "02 Отдельные ошибки валидации"
+  },
+  {
+    "name": "24 communicationId равен минус 1",
+    "body": {
+      "uid": "1",
+      "operationUid": "operation-1",
+      "systemName": "ERP",
+      "systemTime": "2026-10-27T08:40:00.000Z",
+      "source": "lab2",
+      "communicationId": -1,
+      "templateId": 1,
+      "productCode": 2,
+      "smsCode": 1234
+    },
+    "status": 400,
+    "error": "ValidationException",
+    "contains": [
+      "communicationId"
+    ],
+    "group": "02 Отдельные ошибки валидации"
+  },
+  {
+    "name": "25 communicationId равен 100001",
+    "body": {
+      "uid": "1",
+      "operationUid": "operation-1",
+      "systemName": "ERP",
+      "systemTime": "2026-10-27T08:40:00.000Z",
+      "source": "lab2",
+      "communicationId": 100001,
+      "templateId": 1,
+      "productCode": 2,
+      "smsCode": 1234
+    },
+    "status": 400,
+    "error": "ValidationException",
+    "contains": [
+      "communicationId"
+    ],
+    "group": "02 Отдельные ошибки валидации"
+  },
+  {
+    "name": "26 Все обязательные поля отсутствуют",
+    "body": {},
+    "status": 400,
+    "error": "ValidationException",
+    "contains": [
+      "uid",
+      "operationUid",
+      "systemTime",
+      "communicationId"
+    ],
+    "group": "03 Ошибки одновременно"
+  },
+  {
+    "name": "27 Все поля нарушают ограничения",
+    "body": {
+      "uid": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "operationUid": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "systemName": "ERP",
+      "systemTime": "",
+      "source": "lab2",
+      "communicationId": 100001,
+      "templateId": 1,
+      "productCode": 2,
+      "smsCode": 1234
+    },
+    "status": 400,
+    "error": "ValidationException",
+    "contains": [
+      "uid",
+      "operationUid",
+      "systemTime",
+      "communicationId"
+    ],
+    "group": "03 Ошибки одновременно"
+  },
+  {
+    "name": "28 uid равен 123",
+    "body": {
+      "uid": "123",
+      "operationUid": "operation-1",
+      "systemName": "ERP",
+      "systemTime": "2026-10-27T08:40:00.000Z",
+      "source": "lab2",
+      "communicationId": 10,
+      "templateId": 1,
+      "productCode": 2,
+      "smsCode": 1234
+    },
+    "status": 400,
+    "error": "UnsupportedCodeException",
+    "contains": [
+      "Не поддерживаемая ошибка"
+    ],
+    "group": "04 Исключения и JSON"
+  },
+  {
+    "name": "29 Валидация имеет приоритет перед uid 123",
+    "body": {
+      "uid": "123",
+      "operationUid": "operation-1",
+      "systemName": "ERP",
+      "systemTime": "2026-10-27T08:40:00.000Z",
+      "source": "lab2",
+      "communicationId": 0,
+      "templateId": 1,
+      "productCode": 2,
+      "smsCode": 1234
+    },
+    "status": 400,
+    "error": "ValidationException",
+    "contains": [
+      "communicationId"
+    ],
+    "group": "04 Исключения и JSON"
+  },
+  {
+    "name": "30 Синтаксически неверный JSON",
+    "body": "{\"uid\":",
+    "status": 400,
+    "error": "ValidationException",
+    "contains": [
+      "некорректное тело JSON"
+    ],
+    "group": "04 Исключения и JSON"
+  },
+  {
+    "name": "31 Пустое тело",
+    "body": "",
+    "status": 400,
+    "error": "ValidationException",
+    "contains": [
+      "некорректное тело JSON"
+    ],
+    "group": "04 Исключения и JSON"
+  },
+  {
+    "name": "32 communicationId не является числом",
+    "body": {
+      "uid": "1",
+      "operationUid": "operation-1",
+      "systemName": "ERP",
+      "systemTime": "2026-10-27T08:40:00.000Z",
+      "source": "lab2",
+      "communicationId": "abc",
+      "templateId": 1,
+      "productCode": 2,
+      "smsCode": 1234
+    },
+    "status": 400,
+    "error": "ValidationException",
+    "contains": [
+      "некорректное тело JSON"
+    ],
+    "group": "04 Исключения и JSON"
+  },
+  {
+    "name": "33 communicationId дробный",
+    "body": {
+      "uid": "1",
+      "operationUid": "operation-1",
+      "systemName": "ERP",
+      "systemTime": "2026-10-27T08:40:00.000Z",
+      "source": "lab2",
+      "communicationId": 1.5,
+      "templateId": 1,
+      "productCode": 2,
+      "smsCode": 1234
+    },
+    "status": 400,
+    "error": "ValidationException",
+    "contains": [
+      "некорректное тело JSON"
+    ],
+    "group": "04 Исключения и JSON"
+  }
+]

@@ -1,0 +1,13 @@
+{
+  "test": "31 Пустое тело",
+  "request": "",
+  "httpStatus": 400,
+  "response": {
+    "uid": "",
+    "operationUid": "",
+    "systemTime": "2026-10-27T09:38:58.094858Z",
+    "code": "failed",
+    "errorCode": "ValidationException",
+    "errorMessage": "Ошибка валидации: некорректное тело JSON"
+  }
+}

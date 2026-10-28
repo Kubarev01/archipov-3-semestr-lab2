@@ -1,0 +1,23 @@
+{
+  "test": "27 Все поля нарушают ограничения",
+  "request": {
+    "uid": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "operationUid": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "systemName": "ERP",
+    "systemTime": "",
+    "source": "lab2",
+    "communicationId": 100001,
+    "templateId": 1,
+    "productCode": 2,
+    "smsCode": 1234
+  },
+  "httpStatus": 400,
+  "response": {
+    "uid": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "operationUid": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "systemTime": "2026-10-27T09:38:58.086573Z",
+    "code": "failed",
+    "errorCode": "ValidationException",
+    "errorMessage": "Ошибка валидации: communicationId не больше 100000; operationUid не длиннее 32 символов; systemTime обязателен; uid не длиннее 32 символов"
+  }
+}

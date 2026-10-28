@@ -1,0 +1,23 @@
+{
+  "test": "32 communicationId не является числом",
+  "request": {
+    "uid": "1",
+    "operationUid": "operation-1",
+    "systemName": "ERP",
+    "systemTime": "2026-10-27T08:40:00.000Z",
+    "source": "lab2",
+    "communicationId": "abc",
+    "templateId": 1,
+    "productCode": 2,
+    "smsCode": 1234
+  },
+  "httpStatus": 400,
+  "response": {
+    "uid": "",
+    "operationUid": "",
+    "systemTime": "2026-10-27T09:38:58.096844Z",
+    "code": "failed",
+    "errorCode": "ValidationException",
+    "errorMessage": "Ошибка валидации: некорректное тело JSON"
+  }
+}
